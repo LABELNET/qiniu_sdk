@@ -16,6 +16,8 @@ public interface QiniuConstant {
 
     String QINIU_DATE_UTIL_FORMAT="yyyy-MM-dd HH:mm:ss";
 
+    String USER_ID_KEY="uid";
+
 
 
 }
