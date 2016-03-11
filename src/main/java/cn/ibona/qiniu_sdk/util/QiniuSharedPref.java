@@ -24,12 +24,11 @@ public final class QiniuSharedPref {
     /**
      * 存储token
      * @param token 当前token
-     * @param date 当前时间
      */
     public static void setToken(String token,String date) {
         SharedPreferences.Editor edit = sPref.edit();
         edit.putString(QiniuConstant.SHARED_PREFENCE_TOKEN_KEY,token);
-        edit.putString(QiniuConstant.SHARED_PREFENCE_TOKEN_TIME_KEY,token);
+        edit.putString(QiniuConstant.SHARED_PREFENCE_TOKEN_TIME_KEY,date);
         edit.commit();
     }
 
@@ -37,7 +36,7 @@ public final class QiniuSharedPref {
      * 获取 token
      * @return
      */
-    public String getToken() {
+    public static String getToken() {
         return sPref.getString(QiniuConstant.SHARED_PREFENCE_TOKEN_KEY,QiniuConstant.SHARED_PREFENCE_TOKEN_DEFAULT);
     }
 
@@ -45,7 +44,7 @@ public final class QiniuSharedPref {
      * 获取时间
      * @return
      */
-    public String getDate(){
+    public static String getDate(){
         return sPref.getString(QiniuConstant.SHARED_PREFENCE_TOKEN_TIME_KEY,QiniuConstant.SHARED_PREFENCE_TOKEN_TIME_DEFAULT);
     }
 
