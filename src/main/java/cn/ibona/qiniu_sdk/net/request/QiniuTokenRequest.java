@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.util.concurrent.TimeUnit;
 import cn.ibona.qiniu_sdk.net.NetUrl;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;
-import cn.ibona.qiniu_sdk.net.listener.UploadListener;
 import cn.ibona.qiniu_sdk.util.LogUtil;
 import cn.ibona.qiniu_sdk.util.QiniuConstant;
 
@@ -20,7 +19,7 @@ import cn.ibona.qiniu_sdk.util.QiniuConstant;
  * Created by yuanmingzhuo on 16-3-10.
  * 获取Token请求
  */
-public class QiniuTokenRequest extends UploadListener{
+public class QiniuTokenRequest{
 
 
     /**
@@ -31,19 +30,11 @@ public class QiniuTokenRequest extends UploadListener{
         this.tokenLisntener = tokenLisntener;
     }
 
-    private final   OkHttpClient mOkHttpClient=new OkHttpClient();
-
-    private static QiniuTokenRequest tokenRequest;
-    private static QiniuTokenRequest newInstance(){
-        if(tokenRequest==null){
-            tokenRequest=new QiniuTokenRequest();
-        }
-        return tokenRequest;
-    }
+    private final OkHttpClient mOkHttpClient=new OkHttpClient();
 
     //uid
     private String uid;
-    public void setUid(String uid) {
+    public QiniuTokenRequest(String uid) {
         this.uid = uid;
     }
 
@@ -99,12 +90,15 @@ public class QiniuTokenRequest extends UploadListener{
         }
     }
 
-    public static void getToken(String uid) throws Exception {
-
+    /**
+     * 获取token
+     * @param uid 用户id
+     * @throws Exception 异常
+     */
+    public static void getToken(String uid,TokenLisntener tokenLisntener) throws Exception {
+        QiniuTokenRequest tokenRequest = new QiniuTokenRequest(uid);
+        tokenRequest.setTokenLisntener(tokenLisntener);
+        tokenRequest.getStringFromServer();
     }
 
-    @Override
-    public void isTokenTimeOut() {
-        //重新请求token 并 本地存储
-    }
 }
