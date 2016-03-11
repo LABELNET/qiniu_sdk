@@ -1,5 +1,6 @@
 package cn.ibona.qiniu_sdk.net.request;
 
+import com.qiniu.android.utils.AsyncRun;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -95,10 +96,21 @@ public class QiniuTokenRequest{
      * @param uid 用户id
      * @throws Exception 异常
      */
-    public static void getToken(String uid,TokenLisntener tokenLisntener) throws Exception {
-        QiniuTokenRequest tokenRequest = new QiniuTokenRequest(uid);
+    public static void getToken(final String uid, final TokenLisntener tokenLisntener){
+        final QiniuTokenRequest tokenRequest = new QiniuTokenRequest(uid);
         tokenRequest.setTokenLisntener(tokenLisntener);
-        tokenRequest.getStringFromServer();
+
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               try {
+                   tokenRequest.getStringFromServer();
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+           }
+       }).start();
+
     }
 
 }

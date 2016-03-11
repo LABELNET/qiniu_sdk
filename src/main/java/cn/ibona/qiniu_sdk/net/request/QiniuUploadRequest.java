@@ -41,7 +41,7 @@ public class QiniuUploadRequest implements TokenLisntener{
         return uploadRequestInstance;
     }
 
-    private   UploadBean uploadBean;
+    private   UploadBean uploadBean=new UploadBean();
 
     /**
      * 请求token类
@@ -62,7 +62,7 @@ public class QiniuUploadRequest implements TokenLisntener{
 
         final File uploadFile = getFile(uploadBean.getImagePath());
         if (uploadFile == null) {
-             qiniuCallback.onError(QiniuConstant.UPLOAD_IMAGE_IFO);
+             qiniuCallback.onError("文件路径："+QiniuConstant.UPLOAD_IMAGE_IFO);
              return;
           }
 
@@ -96,17 +96,20 @@ public class QiniuUploadRequest implements TokenLisntener{
      * @param uid
      */
     public void requestToken(String uid) {
+
         try {
             QiniuTokenRequest.getToken(uid, uploadRequestInstance);
         } catch (Exception e) {
-            qiniuCallback.onError(e.getMessage());
+            e.printStackTrace();
+//            qiniuCallback.onError("请求--Token :"+e.getMessage());
         }
+
     }
 
     @Nullable
     private File getFile(String imagePath) {
         File uploadFile = new File(imagePath);
-        if(!(uploadFile.exists() && uploadFile.isFile())){
+        if(!(uploadFile.exists() || uploadFile.isFile())){
             return null;
         }
         return uploadFile;
@@ -124,6 +127,6 @@ public class QiniuUploadRequest implements TokenLisntener{
 
     @Override
     public void getTokenError(String msg) {
-        qiniuCallback.onError(msg);
+        qiniuCallback.onError("获取token："+msg);
     }
 }
