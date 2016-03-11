@@ -1,20 +1,19 @@
 # qiniu_sdk
-  七牛深度封装
 
 # 接口设计文档
   
  
   ## 上传图片
   
-  *【函数原型】 static void uploadImage(Context context,UploadBean bean,QiniuCallback qiniuCallback)
-  *【功能】 上传图片到七牛服务器
-  *【类】 cn.ibona.qiniu_sdk.net.QiniuRequest
-  *【参数说明】 
-  *context   上下文
-  *bean     UploadBean对象
-  *callback 回调接口
-  *【返回值说明】 没有
-  *【备注说明】     
+  * 【函数原型】 static void uploadImage(Context context,UploadBean bean,QiniuCallback qiniuCallback)
+  * 【功能】 上传图片到七牛服务器
+  * 【类】 cn.ibona.qiniu_sdk.net.QiniuRequest
+  * 【参数说明】 
+  * context   上下文
+  * bean     UploadBean对象
+  * callback 回调接口
+  * 【返回值说明】 没有
+  * 【备注说明】     
   * 参数UploadBean对象属性
    *  uid         当前用户id , 必须
    *  imagePath   上传图片的sd卡路径,必须
@@ -36,25 +35,25 @@
     private void qiniuSdkUploadImage() {
 
         UploadBean bean=new UploadBean();
-        bean.setUid("95");
-        bean.setImageName("yuan-ming-zhuo-test"+random.nextInt(1000)+".jpg");
-        bean.setImagePath(imgPath);
+        bean.setUid("95"); //当前用户id
+        bean.setImageName(null); //图片名称，可以为null
+        bean.setImagePath(imgPath);  //图片路径
 
 
         QiniuRequest.uploadImage(getApplication(), bean, new QiniuCallback() {
             @Override
             public void onSuccess(String key) {
-
+                  //成功回调
             }
 
             @Override
             public void onError(String msg) {
- 
+                  //失败回调
             }
 
             @Override
             public void onProcess(double percent) {
-
+                 //当前进度
 
             }
         });
