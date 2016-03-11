@@ -12,8 +12,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.Map;
 import cn.ibona.qiniu_sdk.net.QiniuCallback;
+import cn.ibona.qiniu_sdk.net.bean.UploadBean;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;
-import cn.ibona.qiniu_sdk.net.listener.UploadListener;
 import cn.ibona.qiniu_sdk.util.QiniuConstant;
 import cn.ibona.qiniu_sdk.util.QiniuDateUtil;
 import cn.ibona.qiniu_sdk.util.QiniuSharedPref;
@@ -24,14 +24,6 @@ import cn.ibona.qiniu_sdk.util.QiniuSharedPref;
  */
 public class QiniuUploadRequest implements TokenLisntener{
 
-    /**
-     * 上传回调请求-通知token失效，重新请求
-     */
-    private UploadListener uploadListener;
-
-    public void setUploadListener(UploadListener uploadListener) {
-        this.uploadListener = uploadListener;
-    }
 
     /**
      * 回调请求
@@ -41,11 +33,15 @@ public class QiniuUploadRequest implements TokenLisntener{
         this.qiniuCallback = qiniuCallback;
     }
 
-
-    private Map<String,String> params;
-    public void setParams(Map<String, String> params) {
-        this.params = params;
+    private static QiniuUploadRequest uploadRequestInstance;
+    private static QiniuUploadRequest newInstance(){
+        if(uploadRequestInstance==null){
+            uploadRequestInstance=new QiniuUploadRequest();
+        }
+        return uploadRequestInstance;
     }
+
+    private   UploadBean uploadBean;
 
     /**
      * 请求token类
@@ -56,12 +52,15 @@ public class QiniuUploadRequest implements TokenLisntener{
         uploadManager=new UploadManager();
     }
 
+
     /**
      * 上传图片
      */
-    public void upload(String imagePath,String imageName,String token) {
+    public void upload(final UploadBean bean) {
 
-        final File uploadFile = getFile(imagePath);
+        this.uploadBean=bean;
+
+        final File uploadFile = getFile(bean.getImagePath());
         if (uploadFile == null) {
              qiniuCallback.onError(QiniuConstant.UPLOAD_IMAGE_IFO);
              return;
@@ -74,7 +73,7 @@ public class QiniuUploadRequest implements TokenLisntener{
                         qiniuCallback.onProcess(percent);
                     }
                 }, null);
-        this.uploadManager.put(uploadFile,imageName, token,
+        this.uploadManager.put(uploadFile,bean.getImageName(),bean.getToken(),
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo respInfo,
@@ -84,12 +83,24 @@ public class QiniuUploadRequest implements TokenLisntener{
                         } else {
                             //401 , 执行回调操作
                             if (respInfo.statusCode==QiniuConstant.RESPONSE_STATUS_CODE){
-                                uploadListener.isTokenTimeOut();
+                                requestToken(bean.getUid());
                             }
                         }
                     }
 
                 }, uploadOptions);
+    }
+
+    /**
+     * 请求token
+     * @param uid
+     */
+    private void requestToken(String uid) {
+        try {
+            QiniuTokenRequest.getToken(uid, uploadRequestInstance);
+        } catch (Exception e) {
+            qiniuCallback.onError(e.getMessage());
+        }
     }
 
     @Nullable
@@ -107,7 +118,7 @@ public class QiniuUploadRequest implements TokenLisntener{
     public void getTokenSuccess(String token) {
          //存储token，重新请求
         QiniuSharedPref.setToken(token, QiniuDateUtil.getDateStringByNow());
-
+        uploadRequestInstance.upload(uploadBean);
     }
 
     @Override

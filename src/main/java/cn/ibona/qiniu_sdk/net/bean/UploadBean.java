@@ -9,6 +9,8 @@ public class UploadBean {
     private String uid;
     private String imagePath;
     private String imageName;
+    private String token;
+
 
     public String getUid() {
         return uid;
@@ -32,5 +34,13 @@ public class UploadBean {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
