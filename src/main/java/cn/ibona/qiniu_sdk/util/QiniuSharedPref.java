@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.Date;
 
 /**
  * Created by yuanmingzhuo on 16-3-10.
@@ -28,7 +27,7 @@ public final class QiniuSharedPref {
     public static void setToken(String token,String date) {
         SharedPreferences.Editor edit = sPref.edit();
         edit.putString(QiniuConstant.SHARED_PREFENCE_TOKEN_KEY,token);
-        edit.putString(QiniuConstant.SHARED_PREFENCE_TOKEN_TIME_KEY,date);
+        edit.putString(QiniuConstant.SHARED_PREFENCE_TOKEN_TIME_KEY,QiniuDateUtil.getDateStringByNow());
         edit.commit();
     }
 

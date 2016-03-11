@@ -34,7 +34,7 @@ public class QiniuUploadRequest implements TokenLisntener{
     }
 
     private static QiniuUploadRequest uploadRequestInstance;
-    private static QiniuUploadRequest newInstance(){
+    public static QiniuUploadRequest newInstance(){
         if(uploadRequestInstance==null){
             uploadRequestInstance=new QiniuUploadRequest();
         }
@@ -60,7 +60,7 @@ public class QiniuUploadRequest implements TokenLisntener{
 
         this.uploadBean=bean;
 
-        final File uploadFile = getFile(bean.getImagePath());
+        final File uploadFile = getFile(uploadBean.getImagePath());
         if (uploadFile == null) {
              qiniuCallback.onError(QiniuConstant.UPLOAD_IMAGE_IFO);
              return;
@@ -73,7 +73,7 @@ public class QiniuUploadRequest implements TokenLisntener{
                         qiniuCallback.onProcess(percent);
                     }
                 }, null);
-        this.uploadManager.put(uploadFile,bean.getImageName(),bean.getToken(),
+        this.uploadManager.put(uploadFile,uploadBean.getImageName(),uploadBean.getToken(),
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo respInfo,
@@ -95,7 +95,7 @@ public class QiniuUploadRequest implements TokenLisntener{
      * 请求token
      * @param uid
      */
-    private void requestToken(String uid) {
+    public void requestToken(String uid) {
         try {
             QiniuTokenRequest.getToken(uid, uploadRequestInstance);
         } catch (Exception e) {
@@ -118,6 +118,7 @@ public class QiniuUploadRequest implements TokenLisntener{
     public void getTokenSuccess(String token) {
          //存储token，重新请求
         QiniuSharedPref.setToken(token, QiniuDateUtil.getDateStringByNow());
+        uploadBean.setToken(token);
         uploadRequestInstance.upload(uploadBean);
     }
 
