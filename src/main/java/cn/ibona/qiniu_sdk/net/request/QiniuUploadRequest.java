@@ -3,21 +3,19 @@ package cn.ibona.qiniu_sdk.net.request;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.Map;
-
 import cn.ibona.qiniu_sdk.net.QiniuCallback;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;
 import cn.ibona.qiniu_sdk.net.listener.UploadListener;
 import cn.ibona.qiniu_sdk.util.QiniuConstant;
+import cn.ibona.qiniu_sdk.util.QiniuDateUtil;
 import cn.ibona.qiniu_sdk.util.QiniuSharedPref;
 
 /**
@@ -26,11 +24,9 @@ import cn.ibona.qiniu_sdk.util.QiniuSharedPref;
  */
 public class QiniuUploadRequest implements TokenLisntener{
 
-
     /**
      * 上传回调请求-通知token失效，重新请求
      */
-
     private UploadListener uploadListener;
 
     public void setUploadListener(UploadListener uploadListener) {
@@ -45,24 +41,19 @@ public class QiniuUploadRequest implements TokenLisntener{
         this.qiniuCallback = qiniuCallback;
     }
 
-    /**
-     * 获得实例
-     */
-    private static QiniuUploadRequest newInstance(){
-        return new QiniuUploadRequest();
-    }
 
     private Map<String,String> params;
     public void setParams(Map<String, String> params) {
         this.params = params;
     }
 
-    private QiniuTokenRequest tokenRequest;
+    /**
+     * 请求token类
+     */
+
     private  UploadManager uploadManager;
     public QiniuUploadRequest() {
         uploadManager=new UploadManager();
-        tokenRequest=new QiniuTokenRequest();
-        tokenRequest.setTokenLisntener(this);
     }
 
     /**
@@ -110,27 +101,13 @@ public class QiniuUploadRequest implements TokenLisntener{
         return uploadFile;
     }
 
-    /**
-     * 上传图片
-     * @param context
-     * @param params
-     * @param qiniuCallback
-     */
-    public void uploadImage(Context context,Map<String,String> params,QiniuCallback qiniuCallback){
-         QiniuSharedPref.init(context);
-         QiniuUploadRequest request=newInstance();
-         request.setParams(params);
-         request.setQiniuCallback(qiniuCallback);
 
-
-
-
-
-    }
 
     @Override
     public void getTokenSuccess(String token) {
          //存储token，重新请求
+        QiniuSharedPref.setToken(token, QiniuDateUtil.getDateStringByNow());
+
     }
 
     @Override
