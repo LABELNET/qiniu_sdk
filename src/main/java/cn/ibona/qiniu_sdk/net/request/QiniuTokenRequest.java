@@ -20,7 +20,7 @@ import cn.ibona.qiniu_sdk.util.QiniuConstant;
  * Created by yuanmingzhuo on 16-3-10.
  * 获取Token请求
  */
-public class QiniuTokenRequest implements UploadListener{
+public class QiniuTokenRequest extends UploadListener{
 
 
     /**
