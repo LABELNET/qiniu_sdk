@@ -1,5 +1,7 @@
 package cn.ibona.qiniu_sdk.net.request;
 
+import android.util.Log;
+
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -8,13 +10,14 @@ import com.squareup.okhttp.Response;
 import java.util.concurrent.TimeUnit;
 import cn.ibona.qiniu_sdk.net.NetUrl;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;
+import cn.ibona.qiniu_sdk.net.listener.UploadListener;
 import cn.ibona.qiniu_sdk.util.QiniuConstant;
 
 /**
  * Created by yuanmingzhuo on 16-3-10.
  * 获取Token请求
  */
-public class QiniuTokenRequest{
+public class QiniuTokenRequest implements UploadListener{
 
 
     /**
@@ -62,13 +65,24 @@ public class QiniuTokenRequest{
 
         if(response.isSuccessful()){
             //自己进行解析
-            tokenLisntener.getTokenSuccess();
-s        }else{
-
+            parseJson(response.body().string());
+        }else{
             tokenLisntener.getTokenError("");
-
-
         }
     }
 
+    /**
+     * json 解析
+     * @param json json值
+     */
+    private void parseJson(String json) {
+
+
+
+    }
+
+    @Override
+    public void isTokenTimeOut() {
+        //重新请求token 并 本地存储
+    }
 }
