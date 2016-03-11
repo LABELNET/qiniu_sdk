@@ -43,4 +43,14 @@ public class UploadBean {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public String toString() {
+        return "UploadBean{" +
+                "uid='" + uid + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", imageName='" + imageName + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }

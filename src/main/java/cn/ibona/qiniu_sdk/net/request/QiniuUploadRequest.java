@@ -14,6 +14,7 @@ import java.util.Map;
 import cn.ibona.qiniu_sdk.net.QiniuCallback;
 import cn.ibona.qiniu_sdk.net.bean.UploadBean;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;
+import cn.ibona.qiniu_sdk.util.LogUtil;
 import cn.ibona.qiniu_sdk.util.QiniuConstant;
 import cn.ibona.qiniu_sdk.util.QiniuDateUtil;
 import cn.ibona.qiniu_sdk.util.QiniuSharedPref;
@@ -60,6 +61,9 @@ public class QiniuUploadRequest implements TokenLisntener{
 
         this.uploadBean=bean;
 
+
+        LogUtil.writeLog(uploadBean.toString());
+
         final File uploadFile = getFile(uploadBean.getImagePath());
         if (uploadFile == null) {
              qiniuCallback.onError("文件路径："+QiniuConstant.UPLOAD_IMAGE_IFO);
@@ -100,8 +104,7 @@ public class QiniuUploadRequest implements TokenLisntener{
         try {
             QiniuTokenRequest.getToken(uid, uploadRequestInstance);
         } catch (Exception e) {
-            e.printStackTrace();
-//            qiniuCallback.onError("请求--Token :"+e.getMessage());
+            qiniuCallback.onError("请求--Token :"+e.getMessage());
         }
 
     }
