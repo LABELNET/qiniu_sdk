@@ -27,5 +27,16 @@ public class QiniuDateUtil {
     }
 
 
+    /**
+     * 获取当前时间
+     * @return String 2016-01-01 00:00:00
+     */
+    public static String getDateStringByNow(){
+
+        String nowDate = sdf.format(new Date());
+
+        return nowDate;
+    }
+
 
 }
