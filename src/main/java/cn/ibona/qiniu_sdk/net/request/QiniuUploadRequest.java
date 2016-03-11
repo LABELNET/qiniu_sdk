@@ -1,7 +1,6 @@
 package cn.ibona.qiniu_sdk.net.request;
 
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -10,7 +9,6 @@ import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import org.json.JSONObject;
 import java.io.File;
-import java.util.Map;
 import cn.ibona.qiniu_sdk.net.QiniuCallback;
 import cn.ibona.qiniu_sdk.net.bean.UploadBean;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;

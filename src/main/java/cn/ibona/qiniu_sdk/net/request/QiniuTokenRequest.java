@@ -1,15 +1,12 @@
 package cn.ibona.qiniu_sdk.net.request;
 
-import com.qiniu.android.utils.AsyncRun;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.concurrent.TimeUnit;
 import cn.ibona.qiniu_sdk.net.NetUrl;
 import cn.ibona.qiniu_sdk.net.listener.TokenLisntener;

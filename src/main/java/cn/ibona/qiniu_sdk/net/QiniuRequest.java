@@ -1,10 +1,7 @@
 package cn.ibona.qiniu_sdk.net;
 
 import android.content.Context;
-import android.text.format.DateUtils;
-
 import java.util.Date;
-
 import cn.ibona.qiniu_sdk.net.bean.UploadBean;
 import cn.ibona.qiniu_sdk.net.request.QiniuUploadRequest;
 import cn.ibona.qiniu_sdk.util.QiniuConstant;
