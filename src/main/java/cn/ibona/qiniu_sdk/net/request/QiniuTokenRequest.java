@@ -32,19 +32,13 @@ public class QiniuTokenRequest implements UploadListener{
     }
 
     private final   OkHttpClient mOkHttpClient=new OkHttpClient();
-    /**
-     * token请求 对象
-     * @uid   用户id
-     * @return
-     */
-    private static QiniuTokenRequest newInstance(String uid){
-        return new QiniuTokenRequest(uid);
-    }
+
 
     //uid
     private String uid;
-    public QiniuTokenRequest(String uid) {
-        this.uid=uid;
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     /**
@@ -100,9 +94,7 @@ public class QiniuTokenRequest implements UploadListener{
     }
 
     public static void getToken(String uid,TokenLisntener tokenLisntener) throws Exception {
-        QiniuTokenRequest tokenRequest = newInstance(uid);
-        tokenRequest.setTokenLisntener(tokenLisntener);
-        tokenRequest.getStringFromServer();
+
     }
 
     @Override

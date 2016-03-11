@@ -25,6 +25,12 @@ public interface QiniuConstant {
     String JSON_TOKEN_DATA="data";
     String JSON_TOKEN_TOKEN="token";
 
+    //上传图片提示信息
+    String UPLOAD_IMAGE_IFO="图片路径不存在";
+
+    int RESPONSE_STATUS_CODE=401;
+
+
 
 
 }
