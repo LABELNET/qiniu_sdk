@@ -43,7 +43,7 @@ public class TestQiniuDateUtil extends InstrumentationTestCase{
         String token=QiniuSharedPref.getToken();
         Log.d(TAG,"2: "+token);
 
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
         Date date1 = QiniuDateUtil.getDateByString(date);
         Date date2=new Date();
