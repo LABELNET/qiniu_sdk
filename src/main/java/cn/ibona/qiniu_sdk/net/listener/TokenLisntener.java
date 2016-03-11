@@ -9,8 +9,9 @@ public interface TokenLisntener {
 
     /**
      * 成功回调
+     * @param token token信息
      */
-    void getTokenSuccess();
+    void getTokenSuccess(String token);
 
     /**
      * 失败回调

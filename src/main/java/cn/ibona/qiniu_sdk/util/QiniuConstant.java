@@ -19,5 +19,12 @@ public interface QiniuConstant {
     String USER_ID_KEY="uid";
 
 
+    //token json 数据解析
+    String JSON_TOKEN_STATUE="status";
+    String JSON_TOKEN_IFNO="info";
+    String JSON_TOKEN_DATA="data";
+    String JSON_TOKEN_TOKEN="token";
+
+
 
 }
